@@ -1,0 +1,49 @@
+# Space Variant Imaging System
+#
+# Copyright (C) 2006
+# Center for Perceptual Systems
+# University of Texas at Austin
+#
+# jsp Mon Aug 14 10:23:51 CDT 2006
+
+.PHONY: build benchmark check clean release dist publish
+
+build:
+	$(MAKE) -C vc8
+
+clean:
+	$(MAKE) -C vc8 clean
+
+release:
+	$(MAKE) -C vc8
+
+check:
+	$(MAKE) -C vc8 check
+	matlab -nojvm -nosplash -r "svistest;exit;"
+
+benchmark:
+	$(MAKE) -C vc8 benchmark
+	matlab -nojvm -nosplash -r "svisbenchmark;exit;"
+
+dist:
+	# Matlab version 7.0 requires .dll extensions
+	cp svismex.mexw32 svismex.dll
+	# Update timestamps
+	touch --no-create `cat dist_files.txt dist_files_win.txt`
+	# Remove old
+	rm -f svistoolbox-$(VERSION).zip
+	# Create new
+	zip svistoolbox-$(VERSION).zip `cat dist_files.txt dist_files_win.txt`
+	# List contents of new files
+	zipinfo -m svistoolbox-$(VERSION).zip
+	@echo press ENTER; read
+
+publish:
+	scp svistoolbox-$(VERSION).zip jsp@psy86:~/public_html/software
+	scp svistoolbox-$(VERSION).zip jsp@128.83.188.202:/var/www/svi
+	echo "<a href=\"svistoolbox-$(VERSION).zip\">" > svistoolbox-current-xp.shtml
+	echo "Matlab Toolbox for Windows XP, version $(VERSION)" >> svistoolbox-current-xp.shtml
+	echo "</a>" >> svistoolbox-current-xp.shtml
+	scp svistoolbox-current-xp.shtml jsp@psy86:~/public_html/svis_web
+	scp svistoolbox-current-xp.shtml jsp@128.83.188.202:/var/www/svi
+	rm svistoolbox-current-xp.shtml
