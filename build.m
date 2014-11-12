@@ -14,11 +14,11 @@ function build(mex_args)
 %
 % jsp Wed Sep  6 09:44:53 CDT 2006
 
-addpath('~/.matlab/mexgen')
-mgsyntax('svis.mg')
-mgm('svis.mg')
-mgentry('svis.mg')
-mgcpp('svis.mg')
+% addpath('~/.matlab/mexgen')
+% mgsyntax('svis.mg')
+% mgm('svis.mg')
+% mgentry('svis.mg')
+% mgcpp('svis.mg')
 
 if (nargin<1)
     mex_args='';
