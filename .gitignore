@@ -1,2 +1,11 @@
 svis.mg
 *.tgz
+examples/text.tiff
+
+examples/tuebingen.jpg
+
+*.m~
+
+*.tiff
+*.jpg
+*.png
